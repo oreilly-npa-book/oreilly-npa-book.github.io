@@ -890,7 +890,7 @@ test.ping:
 
 ===== Understanding different output options for modules
 
-The((("Salt", "module output options"))) `salt` command permits a significant number of options. One of the most common is `--out`, which returns the output in the format specified. By default, the structure is displayed on the command line, in a human-readable and colorful format called `nested`:
+ By default, the structure of a module's output is displayed on the command line, in a human-readable and colorful format called `nested`:
 
 [source,bash]
 ----
@@ -905,7 +905,7 @@ vmx1:
         True
 ----
 
-Using the `--out` option, we can elect to return the structure in YAML, in JSON, or even as a table:
+However, the((("Salt", "module output options"))) `salt` command permits a significant number of options. One of the most common is `--out`, which returns the output in the format specified. Using this option, we can elect to return the structure in YAML, in JSON, or even as a table:
 
 [source,bash]
 ----
