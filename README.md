@@ -11,5 +11,6 @@ bundle exec jekyll serve
 Render PDF files from asciidoc source
 
 ```
-asciidoctor-pdf appendix-c.adoc
+sudo gem install asciidoctor-pdf
+asciidoctor-pdf $(ls booksource/*.asciidoc) -D pdfs
 ```
