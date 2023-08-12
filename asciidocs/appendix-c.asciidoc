@@ -1,7 +1,7 @@
 [[automationtools]]
 == Automation Tools
 
-No((("network automation", see="also automation tools")))((("automation tools", "overview of", id="ATover9"))) discussion of network automation would be complete without evaluating the role that automation tools--tools like Ansible, Chef, Puppet, Salt, Stacktorm, and Terraform--play in a network automation context.
+No discussion of network automation would be complete without evaluating the role that automation tools--tools like Ansible, Chef, Puppet, Salt, Stacktorm, and Terraform--play in a network automation context.
 
 Traditionally, these tools have been more focused on the server automation use case. This was an understandable focus given that most, if not all, of these tools had their origins in automating server operating systems and managing operating system (OS) and/or application configuration. In recent years, though, there has been a great deal of effort by a number of companies to enhance the network automation functionality of their products. These enhancements make these products much more useful and powerful in a network automation use case.
 
@@ -54,16 +54,16 @@ Configuration management tools don't manage the lifecycle of the remote infrastr
 With this high-level set of architectural differences in mind, let's take a quick look at the three tools we're going to discuss in this chapter.
 
 Salt::
-Salt((("Salt", "overview of")))((("automation tools", "Salt"))) can use either an agent-based architecture or an agentless architecture. In an agent-based architecture, Salt agents communicate with the Salt master over a message bus; in the agentless architecture, they communicate via SSH or other third-party libraries such as NAPALM (covered later). Salt is built using Python, and can be extended with Python. Jinja provides default templating functionality. Salt started out as a tool for remote server management, much like Ansible, and has since gained idempotent configuration management via Salt States, which are written in YAML.  One distinction to make with Salt is that it is also a platform for event-driven automation beyond general configuration management.
+Salt can use either an agent-based architecture or an agentless architecture. In an agent-based architecture, Salt agents communicate with the Salt master over a message bus; in the agentless architecture, they communicate via SSH or other third-party libraries such as NAPALM (covered later). Salt is built using Python, and can be extended with Python. Jinja provides default templating functionality. Salt started out as a tool for remote server management, much like Ansible, and has since gained idempotent configuration management via Salt States, which are written in YAML.  One distinction to make with Salt is that it is also a platform for event-driven automation beyond general configuration management.
 
 StackStorm::
-StackStorm((("StackStorm", "overview of")))((("automation tools", "StackStorm"))) takes a dramatically different approach than the other tools listed here. StackStorm focuses solely on event-driven automation; that is, tasks are performed in response to events. StackStorm leverages Python to build sensors that emit events or actions that perform a task. StackStorm uses YAML in several places to provide metadata for sensors or actions, or to define a workflow.
+StackStorm takes a dramatically different approach than the other tools listed here. StackStorm focuses solely on event-driven automation; that is, tasks are performed in response to events. StackStorm leverages Python to build sensors that emit events or actions that perform a task. StackStorm uses YAML in several places to provide metadata for sensors or actions, or to define a workflow.
 
-Now, let's dive a bit deeper into each of the products we're going to discuss and take a more in-depth look at how each product can be used for network automation. We've arranged the in-depth discussion of the products in alphabetical order, so we'll start with Ansible.((("", startref="ATover9")))
+Now, let's dive a bit deeper into each of the products we're going to discuss and take a more in-depth look at how each product can be used for network automation. We've arranged the in-depth discussion of the products in alphabetical order, so we'll start with Ansible.
 
 === Automating with Salt
 
-Salt((("automation tools", "Salt", id="ATsalt9")))((("Salt", "overview of"))) is a robust framework designed as an extremely fast and lightweight communication bus that offers capabilities such as automated configuration management, cloud provisioning, network automation, and event-driven automation, allowing you to achieve modern network operations of your infrastructure.
+Salt is a robust framework designed as an extremely fast and lightweight communication bus that offers capabilities such as automated configuration management, cloud provisioning, network automation, and event-driven automation, allowing you to achieve modern network operations of your infrastructure.
 
 Salt is very flexible, and allows you to automate a wide variety of network devices and components, as do other tools in this chapter.  Despite its somewhat perceived complexity, Salt can be set up in minutes so you can start automating network devices.
 
@@ -78,17 +78,17 @@ Similar to what we did in the previous section on Ansible, our goal is to provid
 
 ==== Understanding the Salt Architecture
 
-From((("Salt", "architecture", id="Sarch9"))) an architectural perspective, Salt is designed as a simple core with pluggable interfaces. As you will see throughout this section, _everything_ in Salt is pluggable and extensible, including the creation of new device drivers to automate network devices that use different APIs.  To that end, Salt can be used to automate any type of network device.
+From an architectural perspective, Salt is designed as a simple core with pluggable interfaces. As you will see throughout this section, _everything_ in Salt is pluggable and extensible, including the creation of new device drivers to automate network devices that use different APIs.  To that end, Salt can be used to automate any type of network device.
 
 Salt was initially developed to be an agent-based architecture, which wasn't well suited for network automation because, as we know, it's not easy to load software agents on all types of network devices.  In fact, it's very hard or even impossible on traditional network equipment. Due to the demand for agentless automation solutions, Salt updated their architecture to offer both agentless and agent-based solutions.  Additionally, in either deployment option, Salt facilitates event-driven network automation, which is covered later in this section.
 
-At((("Salt", "Salt master and Salt minions"))) its core and default setup, Salt is a hub-and-spoke architecture.  The hub, or central server, is referred to as the _Salt master_ (running software called `salt-master`) and manages the spokes, which are referred to as _Salt minions_ (running software called `salt-minion`), which in essence are the nodes being automated.  The Salt master has the ability to manage thousands of _minions_.  The communication between the master and minions is persistent and uses lightweight protocols to enable real-time communication--this approach allows Salt to scale and manage more than 30,000 minions using a single master server. For even larger designs, it's possible to distribute the minions to multiple master servers, which are eventually managed by a higher-level master.
+At its core and default setup, Salt is a hub-and-spoke architecture.  The hub, or central server, is referred to as the _Salt master_ (running software called `salt-master`) and manages the spokes, which are referred to as _Salt minions_ (running software called `salt-minion`), which in essence are the nodes being automated.  The Salt master has the ability to manage thousands of _minions_.  The communication between the master and minions is persistent and uses lightweight protocols to enable real-time communication--this approach allows Salt to scale and manage more than 30,000 minions using a single master server. For even larger designs, it's possible to distribute the minions to multiple master servers, which are eventually managed by a higher-level master.
 
 This is how Salt operates quite commonly when automating servers.  To understand how Salt operates when automating network devices, we need to review how Salt operates in an agentless architecture.
 
 ===== Using Salt in an agentless architecture with salt-ssh
 
-The((("Salt", "salt-ssh package"))) Salt architecture was extended to operate in an agentless mode of operation.  In this mode of operation, the target nodes being automated do not have the `salt-minion` software package installed.  Rather, another package called `salt-ssh` is used instead and can be installed directly on the master, or distributed on other nodes, as Salt provides a communication bus between all Salt-related processes.
+The Salt architecture was extended to operate in an agentless mode of operation.  In this mode of operation, the target nodes being automated do not have the `salt-minion` software package installed.  Rather, another package called `salt-ssh` is used instead and can be installed directly on the master, or distributed on other nodes, as Salt provides a communication bus between all Salt-related processes.
 
 In this design, the master connects to the target device using SSH, which is why this architecture is sometimes compared to Ansible. It's also worth noting that when using `salt-ssh`, you are still able to leverage the full functionality of Salt when automating your infrastructure.
 
@@ -103,7 +103,7 @@ This leads us to the next option that is most applicable to automating network d
 
 ===== Using Salt in an agentless architecture with proxy minions
 
-Another((("Salt", "proxy minions")))((("proxy minions (Salt)"))) approach Salt uses for agentless automation uses the concept of a Salt _proxy minion_. A proxy minion is a superset of the minion, thus offering all the features of the regular minions. For all intents and purposes, it is a virtual minion.  This virtual minion is not installed on the devices you are pass:[<span class="keep-together">automating—</span>]they simply proxy access to the devices you are automating.  Proxy minions are extensible, offering you the ability to create (or choose) the preferred communication channel from a given proxy minion to the target devices being automated.  This is how network automation is performed today with Salt.
+Another((("proxy minions (Salt)"))) approach Salt uses for agentless automation uses the concept of a Salt _proxy minion_. A proxy minion is a superset of the minion, thus offering all the features of the regular minions. For all intents and purposes, it is a virtual minion.  This virtual minion is not installed on the devices you are pass:[<span class="keep-together">automating—</span>]they simply proxy access to the devices you are automating.  Proxy minions are extensible, offering you the ability to create (or choose) the preferred communication channel from a given proxy minion to the target devices being automated.  This is how network automation is performed today with Salt.
 
 [NOTE]
 ====
@@ -112,7 +112,7 @@ A device managed, or minion, has a proxy process associated with it on the proxy
 
 ===== Automating network devices with Salt
 
-Salt((("Salt", "automating network devices"))) supports network automation through the use proxy minions. Some proxy minions exist specifically for networking.  They include:
+Salt supports network automation through the use proxy minions. Some proxy minions exist specifically for networking.  They include:
 
 Netmiko:: This natively offers multivendor network automation using Netmiko open source Python library, which we cover in <<apis>>.
 NAPALM:: Similar to Netmiko, but with the extra functionalities implemented by Napalm library, also covered in <<napalm>>.
@@ -135,7 +135,7 @@ image::images/npaav2_1201.png["Network topology diagram"]
 
 [NOTE]
 ====
-Again,((("Salt", "topology diagram"))) Salt is very extensible and custom proxy minions can be written for different devices that have unique APIs or legacy interfaces, such as SNMP or Telnet.((("", startref="Sarch9")))
+Again, Salt is very extensible and custom proxy minions can be written for different devices that have unique APIs or legacy interfaces, such as SNMP or Telnet.
 ====
 
 ==== Getting Familiar with Salt
@@ -145,7 +145,7 @@ There are many terms you should be aware of in order to start using Salt.  In or
 
 ===== Understanding the SLS file format
 
-Throughout((("Salt", "SLS file format")))((("SLS file format (Salt)"))) this book, you've learned about Jinja templates and YAML files.  In both cases, Jinja is just one type of templating language and YAML is just one way to structure data in a very human-readable format.  Imagine using a single file that understands Jinja (and other templating languages) and YAML (and other data formats) in order to create different sets of data (the process of inserting data into the template).  This is exactly what SLS files are.
+Throughout((("SLS file format (Salt)"))) this book, you've learned about Jinja templates and YAML files.  In both cases, Jinja is just one type of templating language and YAML is just one way to structure data in a very human-readable format.  Imagine using a single file that understands Jinja (and other templating languages) and YAML (and other data formats) in order to create different sets of data (the process of inserting data into the template).  This is exactly what SLS files are.
 
 SLS is a Salt-specific file format, and it stands for SaLt State. It is a mixture of data representation and templating languages that can be used within the same file.
 
@@ -209,7 +209,7 @@ Next we'll take a look at what _pillars_ are and how they map back to SLS data f
 
 ===== Understanding pillars
 
-A((("Salt", "pillars")))((("pillars (Salt)"))) pillar is a data _resource_ that can either be a file that is an SLS file or data pulled from an external service such as a CMDB or another network management platform.
+A((("pillars (Salt)"))) pillar is a data _resource_ that can either be a file that is an SLS file or data pulled from an external service such as a CMDB or another network management platform.
 
 [NOTE]
 ====
@@ -274,7 +274,7 @@ In this case, all data returned from the IPAM can be data leveraged in some fash
 
 ===== Understanding the top file
 
-We're((("Salt", "top file")))((("top file (Salt)"))) now aware of the SLS file format and pillar data files that leverage the SLS file format.  Another type of file in Salt that uses the SLS file format is called the _top file_.
+We're((("top file (Salt)"))) now aware of the SLS file format and pillar data files that leverage the SLS file format.  Another type of file in Salt that uses the SLS file format is called the _top file_.
 
 The top file, often referred to simply as _the top_, defines the mapping between a minion or groups of minions and the data (through the use of pillars) that should be applied to them. To a certain extent, you can look at the top file as being similar to an Ansible inventory file, which we covered in the last section, but there are in fact many differences that you'll see.
 
@@ -410,7 +410,7 @@ While our focus is on getting started with Salt, you should be aware that you ca
 
 ===== Understanding grains
 
-We've((("Salt", "grains")))((("grains (Salt)"))) already alluded to grains, but now we'll cover them in a little more detail.  Remember that we've already defined pillars in SLS files.  Thus, pillars are data provided by the user.  In contrast, grains represent data gathered by Salt.
+We've((("grains (Salt)"))) already alluded to grains, but now we'll cover them in a little more detail.  Remember that we've already defined pillars in SLS files.  Thus, pillars are data provided by the user.  In contrast, grains represent data gathered by Salt.
 
 Grains are information that Salt collects about a given device such as device vendor, model, serial number, OS version, kernel, DNS, disks, GPUs, and uptime. You don't need to do anything with this data, but you should be aware that this data exists because it has _many_ uses.  For example, we've already shown how you can leverage grains in top files. You can also use this data in templates, conditional statements, and reports.
 
@@ -435,7 +435,7 @@ Before adding a new grain, it is recommended that you evaluate how dynamic the i
 
 ===== Understanding states, state SLS files, and state modules
 
-Salt((("Salt", "states")))((("states (Salt)"))) States are modules used to manage, maintain, and enforce configuration. They are a declarative or imperative representation of a system configuration. Having the source of truth in the pillar, the state compares it with the current configuration, then decides what is required to be removed and what has to be added. Given modern network devices able to apply atomic configurations, it is even easier.  In that case, we only need to generate the expected configuration and let the device compute the difference.
+Salt((("states (Salt)"))) States are modules used to manage, maintain, and enforce configuration. They are a declarative or imperative representation of a system configuration. Having the source of truth in the pillar, the state compares it with the current configuration, then decides what is required to be removed and what has to be added. Given modern network devices able to apply atomic configurations, it is even easier.  In that case, we only need to generate the expected configuration and let the device compute the difference.
 
 In cases where the device does not have such capabilities, or it's more optimal to determine the difference ourselves, we need one additional step, as we illustrate in <<salt-jinja-network-config-templates>>.
 
@@ -470,7 +470,7 @@ In this subsection, we will bring a local Salt environment to live, with all the
 
 ===== Updating the master configuration file
 
-We've((("Salt", "master configuration file")))((("configuration file (Salt)"))) made reference to various files that are used within Salt, such as pillars and templates.  These types of files need to be stored in particular locations on your master server.  You define these locations within the master configuration file.
+We've((("configuration file (Salt)"))) made reference to various files that are used within Salt, such as pillars and templates.  These types of files need to be stored in particular locations on your master server.  You define these locations within the master configuration file.
 
 The master configuration file is a YAML file that is preconfigured with default options as soon as Salt is installed.  The default path for the master configuration file is either _/etc/salt/master_ or _/srv/master_.
 
@@ -571,7 +571,7 @@ Hopefully, right now, we have the master salt and the local server minion runnin
 [[salt-verify-minions]]
 ===== Verifying minions are up with the test module
 
-In((("Salt", "troubleshooting"))) any size deployment, verifying minions are up and functional is a critical step in troubleshooting.  You can accomplish this using the `test` module, and more specifically the `test.ping` function.
+In any size deployment, verifying minions are up and functional is a critical step in troubleshooting.  You can accomplish this using the `test` module, and more specifically the `test.ping` function.
 
 [source,bash]
 ----
@@ -674,7 +674,7 @@ Like in <<salt-verify-minions>>, you can verify their reachability with `test.pi
 
 ===== Using execution modules
 
-Salt((("Salt", "execution modules")))((("execution modules (Salt)")))((("modules (Salt)"))) uses execution modules, more commonly referred to simply as modules, in order to retrieve either data that's stored under Salt management or data directly from the device.
+Salt((("execution modules (Salt)")))((("modules (Salt)"))) uses execution modules, more commonly referred to simply as modules, in order to retrieve either data that's stored under Salt management or data directly from the device.
 
 [NOTE]
 ====
@@ -742,7 +742,7 @@ You can use `salt --help` for added assistance as you continue to use `salt`.  W
 
 ===== Collecting device data using network modules
 
-The((("Salt", "collecting device data"))) previous examples used the grains and pillar modules.  Those modules were simply accessing data that was predefined or cached data that was previously collected.
+The previous examples used the grains and pillar modules.  Those modules were simply accessing data that was predefined or cached data that was previously collected.
 
 Salt also has over a dozen modules for retrieving feature-specific data from network devices including, but not limited to, NTP configuration, NTP peers, BGP, routes, SNMP, and users.  There are even more advanced modules for extracting data from devices and representing it in YAML such that it maps to YANG models.
 
@@ -802,7 +802,7 @@ $ sudo salt eos-spine1 bgp.config
 
 ===== Understanding targeting and compound matching
 
-In((("Salt", "targeting and compound matching")))((("targeting (Salt)")))((("compound matching (Salt)"))) the previous examples, we were automating only a single device.  Salt offers the ability to use _targeting_ to automate more than one device.   Targeting can be very simple, but can become as complex as required by the business logic. Let's look at a few examples.
+In((("targeting (Salt)")))((("compound matching (Salt)"))) the previous examples, we were automating only a single device.  Salt offers the ability to use _targeting_ to automate more than one device.   Targeting can be very simple, but can become as complex as required by the business logic. Let's look at a few examples.
 
 Using the `-L` command line flag, you can explicitly define a list of devices you want to target:
 
@@ -870,7 +870,7 @@ $ sudo salt -N vmx-18-bgp bgp.config
 
 ===== Viewing module and function docstrings
 
-When((("Salt", "sys.doc option"))) just getting started with Salt, you may not be aware of how a particular function within a module works.  In this case, you use the `sys.doc` option in the command being executed.  `sys.doc` without any arguments returns the documentation for all modules.
+When just getting started with Salt, you may not be aware of how a particular function within a module works.  In this case, you use the `sys.doc` option in the command being executed.  `sys.doc` without any arguments returns the documentation for all modules.
 
 Optionally, you can specify to return the docstring for a particular module or execution function:
 
@@ -905,7 +905,7 @@ vmx1:
         True
 ----
 
-However, the((("Salt", "module output options"))) `salt` command permits a significant number of options. One of the most common is `--out`, which returns the output in the format specified. Using this option, we can elect to return the structure in YAML, in JSON, or even as a table:
+However, the `salt` command permits a significant number of options. One of the most common is `--out`, which returns the output in the format specified. Using this option, we can elect to return the structure in YAML, in JSON, or even as a table:
 
 [source,bash]
 ----
@@ -960,7 +960,7 @@ While data can be passed to an external service, it can also be returned to an e
 
 ===== Sending data to external services
 
-As((("Salt", "sending data to external services"))) you've seen, data is easily returned and viewed on the command line.  However, you may also need to send this data to an external service. Using the `--return` CLI option, you define where to send the data, but you need to specify the name of a _returner_.
+As you've seen, data is easily returned and viewed on the command line.  However, you may also need to send this data to an external service. Using the `--return` CLI option, you define where to send the data, but you need to specify the name of a _returner_.
 
 The list of available returners is diverse, some of the most usual being Slack, Syslog, Django, Redis, SMS, SMTP, Kafka, MySQL and Postgres.
 
@@ -1018,7 +1018,7 @@ Next, we'll look at a few workflows that build and deploy network configurations
 
 ==== Managing Network Configurations with Salt
 
-We've((("Salt", "network configurations using", id="Snet9")))((("configuration management", "using Salt", id="CMsalt9"))) seen how flexible SLS files are and what can be done with the `salt` command, but another unique capability of Salt is that any function available on the CLI can also be executed inside SLS files, including templates.
+We've seen how flexible SLS files are and what can be done with the `salt` command, but another unique capability of Salt is that any function available on the CLI can also be executed inside SLS files, including templates.
 
 We're now going to walk through the process of auto-generating configurations through the use of templates.
 
@@ -1143,7 +1143,7 @@ This SLS state file was saved under one of the `file_roots` paths (e.g., _/srv/s
 To execute this SLS state file, we need to call the execution function `state.apply` or `state.sls` with the name of the state file as an argument:
 
 [source,text]
-....
+----
 $ sudo salt vmx1 state.apply ntp
 vmx1:
 ----------
@@ -1180,7 +1180,7 @@ Failed:    0
 ------------
 Total states run:     1
 Total run time:   1.075 s
-....
+----
 
 Note that in a single execution, the commands were generated in memory and deployed to a network device. This example did not create a config file first.
 
@@ -1460,15 +1460,15 @@ $ sudo salt vmx1 state.sls ntp test=True --return smtp
 
 In a very similar way, we can set this up to send reports with the result from multiple devices at a time, using a runner instead of an execution function. While the execution function is run by the minion process, a runner function is executed by the master process, which gives visibility over the entire network. In Python language, the result is a dictionary whose keys are the minion IDs matched, while the values are the actual result of each device.
 
-Available from both CLI and scheduled process, _returners_ are a very powerful tool for post-processing and data transformation. Later, we will see they can be reused when reacting to events, or to monitor the entire Salt activity.((("", startref="Snet9")))((("", startref="CMsalt9")))
+Available from both CLI and scheduled process, _returners_ are a very powerful tool for post-processing and data transformation. Later, we will see they can be reused when reacting to events, or to monitor the entire Salt activity.
 
-==== Executing Salt Functions Remotely
+=== Executing Salt Functions Remotely
 
-We've((("Salt", "remote execution"))) covered quite a bit thus far on Salt, but one of the most important components to understand is the architecture employed by Salt for network devices.  However, as you've learned a lot in this section, be aware that Salt offers two primary ways you can interact with Salt, and execute any command or tasks remotely from another machine.
+We've covered quite a bit thus far on Salt, but one of the most important components to understand is the architecture employed by Salt for network devices.  However, as you've learned a lot in this section, be aware that Salt offers two primary ways you can interact with Salt, and execute any command or tasks remotely from another machine.
 
-===== Using the Salt API
+==== Using the Salt API
 
-This((("Salt", "Salt API"))) RESTful API is included with Salt, using the `salt-api` daemon, and can be used to perform any operation you can when using the `salt` command-line programs within the Linux shell.
+This RESTful API is included with Salt, using the `salt-api` daemon, and can be used to perform any operation you can when using the `salt` command-line programs within the Linux shell.
 
 A core feature of the RESTful API is that it allows you to pick one of three web servers supported _out of the box_.  They include CherryPy, uWSGI, or Tornado.
 
@@ -1531,7 +1531,7 @@ $ pepper 'vmx1' state.sls ntp
 
 ==== Diving into Salt's Event-Driven Infrastructure
 
-Salt((("Salt", "event driven infrastructure", id="Sevent9")))((("ZeroMQ"))) is built around an event bus, which is an open system, based on ZeroMQ, used to notify Salt and other systems about operations. ZeroMQ is a cross-platform high-performance asynchronous messaging toolkit that focuses on handling tasks very efficiently, without additional overheads.
+Salt is built around an event bus, which is an open system, based on ZeroMQ, used to notify Salt and other systems about operations. ZeroMQ is a cross-platform high-performance asynchronous messaging toolkit that focuses on handling tasks very efficiently, without additional overheads.
 
 To watch the events in real time, we execute the following command on the master:
 
@@ -1596,7 +1596,7 @@ Next, we'll take a look at several items that have very specific meaning within 
 
 ===== Watching external processes with beacons
 
-In((("Salt", "beacons")))((("beacons (Salt)"))) Salt, beacons are used to watch external processes that are not related to Salt and to import and return events onto the Salt bus.
+In((("beacons (Salt)"))) Salt, beacons are used to watch external processes that are not related to Salt and to import and return events onto the Salt bus.
 
 For example,  the `inotify` beacon is used to monitor when a file is changed. If we want to monitor when the _ntp_peers.sls_ file is updated, the lines in <<salt-beacons-config>> need to be added in the (proxy) minion configuration:
 
@@ -1636,7 +1636,7 @@ This may be valuable for you to track data as it changes in the system.  Since y
 
 ===== Forwarding events with engines
 
-Engines((("Salt", "engines")))((("engines (Salt)"))) are another subsystem interfacing with the event bus. While beacons only listen to external processes and transform them into Salt events, engines can be bidirectional. Although their main scope is the forwarding of events, there are also engines able to inject messages on the bus. And that is the main difference between beacons and engines: _beacons_ poll the service at specific intervals (default: 1 second), while the _engines_ can fire and forward events on immediate occurrence.
+Engines((("engines (Salt)"))) are another subsystem interfacing with the event bus. While beacons only listen to external processes and transform them into Salt events, engines can be bidirectional. Although their main scope is the forwarding of events, there are also engines able to inject messages on the bus. And that is the main difference between beacons and engines: _beacons_ poll the service at specific intervals (default: 1 second), while the _engines_ can fire and forward events on immediate occurrence.
 
 A very good application could be logging Salt events to a syslog server such as Logstash, using the _http-logstash_ engine.  This would be defined on the master like so:
 
@@ -1654,7 +1654,7 @@ The YAML configuration on the master configures the master to send events to Log
 
 ===== Listening to the salt bus with reactors
 
-The((("Salt", "reactors")))((("reactors (Salt)"))) reactor system listens to the event bus and executes an action when an event occurs. The reactors are configured on the master, the global syntax being:
+The((("reactors (Salt)"))) reactor system listens to the event bus and executes an action when an event occurs. The reactors are configured on the master, the global syntax being:
 
 [source,yaml]
 ----
@@ -1735,7 +1735,7 @@ You can do quite a lot with Salt without event-driven network automation.  Our r
 
 ===== Extending Salt
 
-As((("Salt", "extension modules")))((("modules (Salt)"))) we hope we have emphasized in this section, every Salt component is pluggable.  The extension modules can be placed in a directory, with subdirectories for each of Salt's module types, such as _modules_, _states_, _returners_, _output_, and _runners_. The naming convention for subdirectories is to prepend a `_` to the module type, so execution modules are defined under pass:[<em>_modules</em>], runners under pass:[<em>_runners</em>], and output under _output_. The parent directory can be specified with the option `extension_modules`, or `module_dirs`—which accepts a list of paths. Alternatively, we can also include it as one of the `file_roots` paths.
+As((("modules (Salt)"))) we hope we have emphasized in this section, every Salt component is pluggable.  The extension modules can be placed in a directory, with subdirectories for each of Salt's module types, such as _modules_, _states_, _returners_, _output_, and _runners_. The naming convention for subdirectories is to prepend a `_` to the module type, so execution modules are defined under pass:[<em>_modules</em>], runners under pass:[<em>_runners</em>], and output under _output_. The parent directory can be specified with the option `extension_modules`, or `module_dirs`—which accepts a list of paths. Alternatively, we can also include it as one of the `file_roots` paths.
 
 For example, a new execution module called _example.py_ can be placed under _/srv/salt/_modules_:
 
@@ -1794,7 +1794,7 @@ Remember, modules can be used from the CLI or directly within SLS files, such as
 
 ==== Salt Summary
 
-In((("Salt", "benefits of"))) this section, we covered some of the most important topics to be aware of when just getting started with Salt for network automation. One of the greatest attributes of Salt that we covered was the use of the SLS file.  Remember, you have complete control of how to write SLS data files, from using Jinja and YAML (as the defaults), to using Mako and HJSON, to adding in a new or custom templating language or even data format. This allows you to maintain the use of Salt and extend its capabilities according to the environmental requirements, without depending on the official codebase. Another major benefit of Salt is the use of proxy minions. With Salt, you have a natively built-in ability to distribute load between proxy minions that make it a great choice for large and distributed networks.((("", startref="ATsalt9")))
+In this section, we covered some of the most important topics to be aware of when just getting started with Salt for network automation. One of the greatest attributes of Salt that we covered was the use of the SLS file.  Remember, you have complete control of how to write SLS data files, from using Jinja and YAML (as the defaults), to using Mako and HJSON, to adding in a new or custom templating language or even data format. This allows you to maintain the use of Salt and extend its capabilities according to the environmental requirements, without depending on the official codebase. Another major benefit of Salt is the use of proxy minions. With Salt, you have a natively built-in ability to distribute load between proxy minions that make it a great choice for large and distributed networks.
 
 === Event-Driven Network Automation with StackStorm
 
@@ -1802,7 +1802,7 @@ In((("Salt", "benefits of"))) this section, we covered some of the most importan
 TODO coordinate figures and diagrams with other sections
 ////
 
-StackStorm((("StackStorm", "overview of")))((("automation tools", "StackStorm", id="ATstack9"))) is an open source software project for providing flexible event-driven automation. It is often lumped together with some of the other tools in this chapter, but StackStorm actually wasn't built to replace existing configuration management tools. For instance, many popular workflows in StackStorm actually leverage tools like Ansible for performing configuration management tasks.
+StackStorm is an open source software project for providing flexible event-driven automation. It is often lumped together with some of the other tools in this chapter, but StackStorm actually wasn't built to replace existing configuration management tools. For instance, many popular workflows in StackStorm actually leverage tools like Ansible for performing configuration management tasks.
 
 The best way to think about StackStorm is that it fits in the sweet spot between configuration management (or general automation) and monitoring. It aims to provide a set of primitives for allowing the user to describe the tasks that should take place in response to certain events. For this reason, StackStorm can be thought of as the IFTTT (if-this-then-that) of IT infrastructure.
 
@@ -1810,7 +1810,7 @@ In many areas of IT, we usually respond to problems or outages manually. One ver
 
 [NOTE]
 ====
-The((("infrastructure-as-code practices"))) design of StackStorm is meant to work well with infrastructure-as-code practices. These practices take the approach that your infrastructure can be described using text files (such as YAML files and Jinja templates we've used in many other places in this book), and that these files can and should be managed in the same way that software developers manage source code for applications.
+The design of StackStorm is meant to work well with infrastructure-as-code practices. These practices take the approach that your infrastructure can be described using text files (such as YAML files and Jinja templates we've used in many other places in this book), and that these files can and should be managed in the same way that software developers manage source code for applications.
 
 In StackStorm, nearly everything is described using YAML files. As we go through the following examples, keep this paradigm in mind, and remember that it's always a good idea to use version control and automated testing for the files we use to manage our infrastructure.
 ====
@@ -1819,7 +1819,7 @@ In the following section, we'll explore some of the basic StackStorm concepts yo
 
 ==== StackStorm Concepts
 
-There((("StackStorm", "concepts"))) are a number of concepts we'll need to familiarize ourselves with in order to use StackStorm, as shown in <<stackstorm-fig>>. Together, they form a set of tools that make event-driven automation possible.
+There are a number of concepts we'll need to familiarize ourselves with in order to use StackStorm, as shown in <<stackstorm-fig>>. Together, they form a set of tools that make event-driven automation possible.
 
 First,((("Actions (StackStorm)"))) _actions_ are conceptually closest to the functionality offered by some of the other tools discussed in this chapter. They're where the actual work gets done. They're logically distinct bits of code that perform tasks like making API calls and executing scripts. They're the atomic building blocks of the "automation" part of event-driven automation.
 
@@ -1833,7 +1833,7 @@ Now((("Sensors (StackStorm)")))((("Triggers (StackStorm)"))) that we have action
 
 The((("Rules (StackStorm)"))) crux of event-driven automation with StackStorm comes in the form of _rules_. Rules are the StackStorm equivalent of "if-this-then-that"—they're a way to connect incoming triggers to actions or workflows that respond to events. You may want to execute a workflow that pushes a new configuration to a network device when the `napalm.LLDPNeighborDecrease` trigger fires; this automated response would be defined in a rule.
 
-Finally,((("Packs (StackStorm)"))) it's worth mentioning that all of these concepts are distributed in StackStorm via _packs_. Packs are the atomic unit of distribution for all manner of extensibility in StackStorm—sensors, rules, workflows, and actions are all defined with text files, and those files are placed in a pack so they can be referenced. For((("StackStorm", "using NAPALM in"))) instance, the `napalm.LLDPNeighborDecrease` sensor is in the `napalm` pack. Not all packs are installed by default, but there are CLI commands for easily installing new packs from the StackStorm Exchange. For instance, to download the `napalm` pack, you would simply run:
+Finally,((("Packs (StackStorm)"))) it's worth mentioning that all of these concepts are distributed in StackStorm via _packs_. Packs are the atomic unit of distribution for all manner of extensibility in StackStorm—sensors, rules, workflows, and actions are all defined with text files, and those files are placed in a pack so they can be referenced. For instance, the `napalm.LLDPNeighborDecrease` sensor is in the `napalm` pack. Not all packs are installed by default, but there are CLI commands for easily installing new packs from the StackStorm Exchange. For instance, to download the `napalm` pack, you would simply run:
 
 [source,text]
 ----
@@ -1846,7 +1846,7 @@ Now that we have the basic concepts in mind, let's talk about how StackStorm wor
 
 ==== StackStorm Architecture
 
-StackStorm((("StackStorm", "architecture"))) is not really one component, but several microservices that work together to make event-driven automation possible (see <<stackstorm-comp-fig>>). The distributed nature of StackStorm was designed so that each component could scale independently as needs change. This also allows each function to be more resilient in a failure scenario.
+StackStorm is not really one component, but several microservices that work together to make event-driven automation possible (see <<stackstorm-comp-fig>>). The distributed nature of StackStorm was designed so that each component could scale independently as needs change. This also allows each function to be more resilient in a failure scenario.
 
 [[stackstorm-comp-fig]]
 .StackStorm components
@@ -1866,11 +1866,11 @@ You can use this web UI to do almost anything in StackStorm. So, if you're just 
 
 ==== Actions and Workflows
 
-Now((("Actions (StackStorm)", id="act9")))((("Workflows (StackStorm)", id="work9")))((("StackStorm", "actions and workflows", id="SSact9"))) that we have the concepts and high-level architecture down, we should move into some practical examples of everything we've learned thus far.
+Now((("Actions (StackStorm)", id="act9")))((("Workflows (StackStorm)", id="work9"))) that we have the concepts and high-level architecture down, we should move into some practical examples of everything we've learned thus far.
 
 [NOTE]
 ====
-StackStorm((("StackStorm", "documentation"))) is very powerful, and as a result, there's a lot to discuss. Rather than cram this section full of examples for everything you could possibly want to know, we'll give an overview of the important details. For everything else, bookmark the https://docs.stackstorm.com[StackStorm documentation] and refer to that for much more detailed explanations, code snippets, and more.
+StackStorm is very powerful, and as a result, there's a lot to discuss. Rather than cram this section full of examples for everything you could possibly want to know, we'll give an overview of the important details. For everything else, bookmark the https://docs.stackstorm.com[StackStorm documentation] and refer to that for much more detailed explanations, code snippets, and more.
 
 In addition, StackStorm has a very active Slack community (sign up for free at link:$$https://stackstorm.com/?#community$$[]), and it's the best place to get questions or concerns answered.
 ====
@@ -1946,7 +1946,7 @@ result:
 
 The output shows that our command succeeded, and that `stdout` contains the string we passed to `echo`.
 
-Now that we're comfortable with the command line, we can look at something a bit more relevant to network automation. Assuming((("StackStorm", "using NAPALM in", id="SSnapalm9"))) we've installed the `napalm` pack using the `st2 pack install napalm` command shown previously, we can use `st2 actions list` to view all the actions available to us in this pack:
+Now that we're comfortable with the command line, we can look at something a bit more relevant to network automation. Assuming we've installed the `napalm` pack using the `st2 pack install napalm` command shown previously, we can use `st2 actions list` to view all the actions available to us in this pack:
 
 [source,text]
 ----
@@ -2198,7 +2198,7 @@ TODO removed the start_timestamp column but might be too wide still. Should chec
 ----
 vagrant@st2vagrant:~$ st2 run napalm.interface_down_workflow hostname=vsrx01
 interface="ge-0/0/1"
-......
+
 id: 595adf58c4da5f0521ea90a0
 action.ref: napalm.interface_down_workflow
 parameters:
@@ -2304,7 +2304,7 @@ TODO removed the start_timestamp column but might be too wide still. Should chec
 ----
 vagrant@st2vagrant:~$ st2 run napalm.interface_down_workflow hostname=vsrx01
 interface="ge-0/0/1" skip_show_interface=True
-....
+
 id: 595b4a7ec4da5f0521ea90b4
 action.ref: napalm.interface_down_workflow
 parameters:
@@ -2323,15 +2323,15 @@ end_timestamp: 2017-07-04T07:57:58.032456Z
 +--------------------------+-----------+-------------------------+-----------------------+
 ----
 
-There's a lot more you can do with actions and workflows, but this will be enough to get you started.((("", startref="SSact9")))((("", startref="work9")))((("", startref="act9")))((("", startref="SSnapalm9")))
+There's a lot more you can do with actions and workflows, but this will be enough to get you started.
 
 ==== Sensors and Triggers
 
-Actions((("Sensors (StackStorm)")))((("Triggers (StackStorm)")))((("StackStorm", "sensors and triggers"))) and workflows are useful in their own right, but in order to enable event-driven automation, we need to gather information about our infrastructure and recognize when actionable events happen. This is accomplished through sensors and triggers. Sensors are little bits of Python code that bring external data into StackStorm—for instance, by periodically pollling REST APIs or subscribing to message queues.
+Actions((("Sensors (StackStorm)")))((("Triggers (StackStorm)"))) and workflows are useful in their own right, but in order to enable event-driven automation, we need to gather information about our infrastructure and recognize when actionable events happen. This is accomplished through sensors and triggers. Sensors are little bits of Python code that bring external data into StackStorm—for instance, by periodically pollling REST APIs or subscribing to message queues.
 
 [NOTE]
 ====
-StackStorm((("webhooks (StackStorm)")))((("StackStorm", "webhooks"))) also allows you to configure incoming https://docs.stackstorm.com/webhooks.html[webhooks], which allows external systems to "push" events to StackStorm (sensors provide more of a "pull" model of integration).
+StackStorm((("webhooks (StackStorm)"))) also allows you to configure incoming https://docs.stackstorm.com/webhooks.html[webhooks], which allows external systems to "push" events to StackStorm (sensors provide more of a "pull" model of integration).
 
 Sensors are the preferred integration method since they offer a more granular and tighter integration, but webhooks offer a simple integration mechanism that allows you to get data into StackStorm quickly. This can be helpful when working with systems that don't yet have a sensor built for them, or that only offer outgoing webhooks as an integration mechanism.
 ====
@@ -2451,7 +2451,7 @@ This will come in handy as we discuss rules in the next section.
 
 ==== Rules
 
-We((("Rules (StackStorm)")))((("StackStorm", "rules"))) finally arrive at the crux of everything we've learned thus far. To recap, actions allow us to perform bread-and-butter automation. Sensors and triggers represent "events" in StackStorm. Now to perform event-driven automation, we need a way to tie events from triggers to actions or workflows. That's where rules come in.
+We((("Rules (StackStorm)"))) finally arrive at the crux of everything we've learned thus far. To recap, actions allow us to perform bread-and-butter automation. Sensors and triggers represent "events" in StackStorm. Now to perform event-driven automation, we need a way to tie events from triggers to actions or workflows. That's where rules come in.
 
 Rules are defined (much like a lot of other things in StackStorm) in YAML files. The plain-English version of a rule might be: "When _X_ happens, do _Y_." In our case, _X_ is a trigger instance, and _Y_ is an action or workflow.
 
@@ -2577,9 +2577,9 @@ As discussed previously, running workflows is functionally very similar to runni
 
 ==== StackStorm Summary
 
-There's((("StackStorm", "benefits of"))) a lot more to StackStorm, but these core concepts will get you started down the road of auto-remediation and event-driven network automation. The idea behind StackStorm is to give you the tools that allow you to put processes in place that react autonomously to infrastructure events, in the same way that you would manually, but in a more reliable fashion.
+There's a lot more to StackStorm, but these core concepts will get you started down the road of auto-remediation and event-driven network automation. The idea behind StackStorm is to give you the tools that allow you to put processes in place that react autonomously to infrastructure events, in the same way that you would manually, but in a more reliable fashion.
 
-For more information on StackStorm, the best place to visit is the project's https://docs.stackstorm.com/[documentation], as well as the free https://stackstorm.com/?#community[Slack channel], where there's almost always someone on hand ready to answer any questions.((("", startref="ATstack9")))
+For more information on StackStorm, the best place to visit is the project's https://docs.stackstorm.com/[documentation], as well as the free https://stackstorm.com/?#community[Slack channel], where there's almost always someone on hand ready to answer any questions.
 
 === Summary
 
